@@ -1,0 +1,7 @@
+.idea
+.vscode
+.DS_Store
+/dist
+
+frontend/node_modules
+backend/**/__pycache__
