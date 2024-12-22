@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '8.130.18.110',
+    'localhost'
 ]
 
 
@@ -163,9 +163,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 587
-# Email Host #
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-DEFAULT_FROM_EMAIL = ''
+EMAIL_HOST_USER = '2598926206@qq.com'
+EMAIL_HOST_PASSWORD = 'dcbzjexcaxsfdifa'
+DEFAULT_FROM_EMAIL = '2598926206@qq.com'
 
 LOGIN_URL = '/user/login'

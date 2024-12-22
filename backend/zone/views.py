@@ -1,7 +1,7 @@
 import json, jwt, uuid, os
 from django.conf import settings
 from django.core.cache import cache
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 from .models import Zone, FollowZone, ZoneAdmin, Object, StarObject, CollectObject
@@ -142,7 +142,7 @@ def create_zone(request):
     ZoneAdmin.objects.create(admin_id=user_id, zone_id=zone.id)
     return JsonResponse({'code': 200, 'message': '创建成功！'})
 
-from django.db.models import Q
+
 @require_POST
 def zone_modify(request, zone_id):
     name = request.POST.get('name')
@@ -249,7 +249,7 @@ def object_detail(request, object_id):
         'star_count': StarObject.objects.filter(object_id=object.id).count(),
         'star_num': star_count,
         'comments': comments_data,
-        'privilege': Object.objects.filter(zone_id=object.zone_id).count() > 3 and (object.creator_id == user_id or user.is_superuser),
+        'privilege': object.creator_id == user_id or user.is_superuser,
         'privilege_modi': object.creator_id == user_id or user.is_superuser,
         'zone_id': object.zone_id,
     }

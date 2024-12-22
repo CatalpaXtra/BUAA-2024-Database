@@ -35,6 +35,36 @@ def blog2Json(blogs, user_id):
     return blogs_data[::-1]
 
 
+def filter_blogs_by_interests(blogs, user_id):
+    interests = set()
+    collected_blogs = Blog.objects.filter(collects__user=user_id)
+    for blog in collected_blogs:
+        interests.update(blog.category.values_list('id', flat=True))
+    liked_blogs = Blog.objects.filter(likes__user=user_id)
+    for blog in liked_blogs:
+        interests.update(blog.category.values_list('id', flat=True))
+        
+    filtered_blogs = []
+    for blog in blogs:
+        blog_tags = set(blog.category.values_list('id', flat=True))
+        if interests & blog_tags:
+            filtered_blogs.append(blog)
+
+    if len(filtered_blogs) < 12:
+        remaining_blogs = [blog for blog in blogs if blog not in filtered_blogs]
+        additional_blogs = remaining_blogs[0:12 - len(filtered_blogs)]
+        filtered_blogs.extend(additional_blogs)
+    return filtered_blogs
+
+
+@require_GET
+def blog_interest(request):
+    blogs = Blog.objects.all().order_by('pub_time')
+    user_id = decode(request)
+    blogs = filter_blogs_by_interests(blogs, user_id)
+    return JsonResponse({'code': 200, 'blogs': blog2Json(blogs, user_id)})
+
+
 @require_GET
 def blog_all(request):
     blogs = Blog.objects.all().order_by('pub_time')

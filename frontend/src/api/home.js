@@ -3,7 +3,7 @@ import request from './request'
 const acquireBlogsApi = () => {
     const token = localStorage.getItem('jwt_token');
     return request.get({
-        url: '/blog/all',
+        url: '/blog/interest',
         headers: {
             'Authorization': `Bearer ${token}`,
         },

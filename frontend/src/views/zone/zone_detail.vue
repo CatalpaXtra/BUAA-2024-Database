@@ -376,7 +376,7 @@ export default {
       });
     },
     deleteObject(objectId) {
-      api.deleteObjectApi(objectId).then(data => {
+      api.deleteObjApi(objectId).then(data => {
         this.$router.go(0);
       });
     }

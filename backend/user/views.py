@@ -74,6 +74,14 @@ def register(request):
     if len(password) < 6:
         return JsonResponse({'code': 400, 'message': '密码长度需大于六位！'})
     
+    captcha = data.get('captcha')
+    captchaModel = CaptchaModel.objects.filter(email=email).first()
+    if not captchaModel:
+        return JsonResponse({'code': 400, 'message': '尚未发送验证码！'})
+    
+    if captcha != captchaModel.captcha:
+        return JsonResponse({'code': 400, 'message': '验证码错误！'})
+    
     user = User.objects.create_user(email=email, username=username, password=password)
     UserDetail.objects.create(user=user)
     return JsonResponse({'code': 200, 'message': '用户注册成功！'})

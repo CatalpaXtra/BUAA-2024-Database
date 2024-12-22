@@ -6,6 +6,7 @@ app_name = 'blog'
 
 urlpatterns = [
     path('all', views.blog_all, name='blog_all'),
+    path('interest', views.blog_interest, name='blog_interest'),
     path('ctg_all', views.category_all, name='category_all'),
     path('search_kwd', views.search_by_keyword, name='search_by_keyword'),
     path('category/<int:category_id>', views.search_by_category, name='search_by_category'),
